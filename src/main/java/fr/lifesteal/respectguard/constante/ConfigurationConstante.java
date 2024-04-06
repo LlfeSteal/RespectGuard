@@ -5,7 +5,7 @@ import java.util.List;
 
 public final class ConfigurationConstante {
     public static final String CHATGPT_API_KEY = "chatGPT.api-key";
-    public static final String CHATGPT_API_KEY_DEFAULT_VALUE = "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";
+    public static final String CHATGPT_API_KEY_DEFAULT_VALUE = "";
     public static final String CHATGPT_MODEL_KEY = "chatGPT.model";
     public static final String CHATGPT_MODEL_KEY_DEFAULT_VALUE = "gpt-3.5-turbo";
     public static final String EVENT_CANCEL_KEY = "event.cancel-event";
