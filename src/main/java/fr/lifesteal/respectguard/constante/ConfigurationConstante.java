@@ -1,4 +1,4 @@
-package fr.dorianosaure.RespectGuard.constante;
+package fr.lifesteal.respectguard.constante;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
-package fr.dorianosaure.RespectGuard.listener;
+package fr.lifesteal.respectguard.listener;
 
-import fr.dorianosaure.RespectGuard.event.BadMessageEvent;
-import fr.dorianosaure.RespectGuard.service.Interface.IChatGptService;
-import fr.dorianosaure.RespectGuard.service.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.event.BadMessageEvent;
+import fr.lifesteal.respectguard.service.Interface.IChatGptService;
+import fr.lifesteal.respectguard.service.Interface.IConfigurationService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
