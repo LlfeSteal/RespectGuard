@@ -1,48 +1,99 @@
 package fr.dorianosaure.RespectGuard.service;
 
-import fr.dorianosaure.RespectGuard.RespectGuard;
 import fr.dorianosaure.RespectGuard.constante.ConfigurationConstante;
+import fr.dorianosaure.RespectGuard.service.Interface.ICacheService;
 import fr.dorianosaure.RespectGuard.service.Interface.IConfigurationService;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
+/**
+ * {@inheritDoc}
+ */
 public class ConfigurationService implements IConfigurationService {
 
-    private final RespectGuard respectGuard;
+    private final JavaPlugin plugin;
     private final FileConfiguration fileConfiguration;
-    private final Map<String, String> configurationValues = new HashMap<>();
+    private final ICacheService cacheService;
 
-    public ConfigurationService(RespectGuard respectGuard, FileConfiguration fileConfiguration) {
-        this.respectGuard = respectGuard;
+    /**
+     * Initialise une instance de la class ConfigurationService
+     * @param plugin Plugin propriétaire du fichier de configuration.
+     * @param fileConfiguration Fichier de configuration cible.
+     * @param cacheService Service de gestion de cache.
+     */
+    public ConfigurationService(JavaPlugin plugin, FileConfiguration fileConfiguration, ICacheService cacheService) {
+        this.plugin = plugin;
         this.fileConfiguration = fileConfiguration;
+        this.cacheService = cacheService;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void initDefaultConfiguration() {
         this.fileConfiguration.addDefault(ConfigurationConstante.CHATGPT_API_KEY, ConfigurationConstante.CHATGPT_API_KEY_DEFAULT_VALUE);
         this.fileConfiguration.addDefault(ConfigurationConstante.CHATGPT_MODEL_KEY, ConfigurationConstante.CHATGPT_MODEL_KEY_DEFAULT_VALUE);
+        this.fileConfiguration.addDefault(ConfigurationConstante.EVENT_CANCEL_KEY, ConfigurationConstante.EVENT_CANCEL_KEY_DEFAULT_VALUE);
+        this.fileConfiguration.addDefault(ConfigurationConstante.EVENT_COMMANDS_KEY, ConfigurationConstante.EVENT_COMMANDS_KEY_DEFAULT_VALUE);
 
         this.fileConfiguration.options().copyDefaults(true);
-        this.respectGuard.saveConfig();
+        this.plugin.saveConfig();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void loadConfiguration() {
-        this.loadValueConfiguration(ConfigurationConstante.CHATGPT_API_KEY);
-        this.loadValueConfiguration(ConfigurationConstante.CHATGPT_MODEL_KEY);
+        this.loadStringValue(ConfigurationConstante.CHATGPT_API_KEY);
+        this.loadStringValue(ConfigurationConstante.CHATGPT_MODEL_KEY);
+        this.loadBooleanValue(ConfigurationConstante.EVENT_CANCEL_KEY);
+        this.loadStringListValue(ConfigurationConstante.EVENT_COMMANDS_KEY);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getChatGptApiKey() {
-        return configurationValues.get(ConfigurationConstante.CHATGPT_API_KEY);
+        return (String) this.cacheService.getValue(ConfigurationConstante.CHATGPT_API_KEY);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getChatGptModel() {
-        return configurationValues.get(ConfigurationConstante.CHATGPT_MODEL_KEY);
+        return (String) this.cacheService.getValue(ConfigurationConstante.CHATGPT_MODEL_KEY);
     }
 
-    private void loadValueConfiguration(String configurationKey) {
-        configurationValues.put(configurationKey, this.fileConfiguration.getString(configurationKey));
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean hasEventToBeCancel() {
+        return (boolean) this.cacheService.getValue(ConfigurationConstante.EVENT_CANCEL_KEY);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getCommandsToExecute() {
+        return (List<String>) this.cacheService.getValue(ConfigurationConstante.EVENT_COMMANDS_KEY);
+    }
+
+    private void loadStringValue(String configurationKey) {
+        this.cacheService.setValue(configurationKey, this.fileConfiguration.getString(configurationKey));
+    }
+
+    private void loadBooleanValue(String configurationKey) {
+        this.cacheService.setValue(configurationKey, this.fileConfiguration.getBoolean(configurationKey));
+    }
+
+    private void loadStringListValue(String configurationKey) {
+        this.cacheService.setValue(configurationKey, this.fileConfiguration.getStringList(configurationKey));
+    }
+
 }

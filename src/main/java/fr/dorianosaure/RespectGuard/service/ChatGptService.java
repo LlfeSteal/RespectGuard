@@ -12,12 +12,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * @inheritDoc
+ * {@inheritDoc}
+ * TODO: Extraire le méchanisme de requete HTTP dans une autre classe.
  */
 public class ChatGptService implements IChatGptService {
     private static final String CHATGPT_URL = "https://api.openai.com/v1/chat/completions";
-    private static final String IS_BAD_MESSAGE_REQUEST = "Salut, peux-tu répondre uniquement par oui ou par non, Est-ce que cette phrase contient oui ou non une insulte : %testedMessage";
-
+    private static final String IS_BAD_MESSAGE_REQUEST = "Uniquement par oui ou par non, est-ce que cette phrase contient une insulte : %testedMessage";
     private final IConfigurationService configurationService;
     private final ILoggerService loggerService;
 
@@ -32,12 +32,17 @@ public class ChatGptService implements IChatGptService {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public boolean IsBadMessage(String message) {
         String requestMessage = IS_BAD_MESSAGE_REQUEST
                 .replace("%testedMessage", message);
+
+        this.loggerService.Debug("RequestMessage = %message".replace("%message", requestMessage));
+
         String response = GetChatGptResponse(requestMessage);
+
+        this.loggerService.Debug("RequestReponse = %message".replace("%message", response));
 
         return response.equalsIgnoreCase("Oui.");
     }
@@ -54,25 +59,57 @@ public class ChatGptService implements IChatGptService {
             this.sendRequest(connection, requestMessage);
             String response = this.GetRequestResult(connection);
 
+            this.loggerService.Debug("RawRequestReponse = %message".replace("%message", response));
+
             return extractContentFromResponse(response);
         }
         catch (Exception ex) {
-            loggerService.Error("Erreur lors de la récupération de la réponse de ChatGpt.", ex);
+            loggerService.Error("Erreur lors de la récupération de la réponse de ChatGpt :" + ex.getMessage(), ex);
             return "";
         }
     }
 
-    private void sendRequest(HttpURLConnection connection, String requestMessage) throws IOException {
-        String requestBody = "{\"model\": \"%model\", \"message\": [{\"role\": \"user\", \"content\": \"%message \"}]}}"
-                .replace("%model", this.configurationService.getChatGptModel())
-                .replace("%message", requestMessage);
+    /**
+     * Méthode permettant d'initialiser la requete HTTP.
+     * @return Retourne la connection HTTP créée.
+     * @throws IOException Léve une exception si une erreur I/O se produit sur le connection.
+     */
+    private HttpURLConnection GetConnection() throws IOException {
+        URL url = new URL(CHATGPT_URL);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("Content-Type", "application/json");
+        connection.setRequestProperty("Authorization", "Bearer " + this.configurationService.getChatGptApiKey());
 
+        this.loggerService.Debug("Authorization = %Authorization".replace("%Authorization", "Bearer " + this.configurationService.getChatGptApiKey()));
+        return connection;
+    }
+
+    /**
+     * Méthode permettant de renseigner les données et d'envoyer la requete à l'API ChatGpt.
+     * @param connection Connection à utiliser pour écrire les données.
+     * @param requestMessage Données de la requête à envoyer.
+     * @throws IOException Léve une exception si une erreur I/O se produit sur le connection.
+     */
+    private void sendRequest(HttpURLConnection connection, String requestMessage) throws IOException {
+        String prompt = "[{\"role\": \"user\", \"content\": \"" + requestMessage + "\"}]";
+        String requestBody = "{\"model\": \"" + this.configurationService.getChatGptModel()  + "\", \"messages\": " + prompt + "}";
+
+        this.loggerService.Debug("requestBody = %message".replace("%message", requestBody));
+
+        connection.setDoOutput(true);
         OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
         writer.write(requestBody);
         writer.flush();
         writer.close();
     }
 
+    /**
+     * Méthode permettant de récupérer le resultat de la requête HTTP.
+     * @param connection Connection à utiliser pour récupérer les resultats.
+     * @return Retourne le resultat sous la forme d'une chaine json.
+     * @throws IOException Léve une exception si une erreur I/O se produit sur le connection.
+     */
     private String GetRequestResult(HttpURLConnection connection) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
         String inputLine;
@@ -86,16 +123,6 @@ public class ChatGptService implements IChatGptService {
         return response.toString();
     }
 
-    private HttpURLConnection GetConnection() throws IOException {
-        URL url = new URL(CHATGPT_URL);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("Authorization", "Bearer" + this.configurationService.getChatGptApiKey());
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setDoOutput(true);
-
-        return connection;
-    }
 
     /**
      * Méthode permettant d'éxtraire la réponse de chatGpt depuis les réponses de la requete.
