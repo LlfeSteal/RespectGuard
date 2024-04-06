@@ -1,6 +1,6 @@
-package fr.dorianosaure.RespectGuard.service;
+package fr.lifesteal.respectguard.service;
 
-import fr.dorianosaure.RespectGuard.service.Interface.ILoggerService;
+import fr.lifesteal.respectguard.service.Interface.ILoggerService;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

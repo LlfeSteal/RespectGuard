@@ -1,4 +1,4 @@
-package fr.dorianosaure.RespectGuard.service.Interface;
+package fr.lifesteal.respectguard.service.Interface;
 
 /**
  * Service de gestion des logs.

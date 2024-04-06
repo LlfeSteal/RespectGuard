@@ -1,6 +1,6 @@
-package fr.dorianosaure.RespectGuard.service;
+package fr.lifesteal.respectguard.service;
 
-import fr.dorianosaure.RespectGuard.service.Interface.ICacheService;
+import fr.lifesteal.respectguard.service.Interface.ICacheService;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,4 +1,4 @@
-package fr.dorianosaure.RespectGuard.event;
+package fr.lifesteal.respectguard.event;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

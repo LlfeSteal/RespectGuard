@@ -1,8 +1,8 @@
-package fr.dorianosaure.RespectGuard.service;
+package fr.lifesteal.respectguard.service;
 
-import fr.dorianosaure.RespectGuard.service.Interface.IChatGptService;
-import fr.dorianosaure.RespectGuard.service.Interface.IConfigurationService;
-import fr.dorianosaure.RespectGuard.service.Interface.ILoggerService;
+import fr.lifesteal.respectguard.service.Interface.IChatGptService;
+import fr.lifesteal.respectguard.service.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.service.Interface.ILoggerService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
