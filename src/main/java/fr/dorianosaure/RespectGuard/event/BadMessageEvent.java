@@ -9,7 +9,8 @@ public class BadMessageEvent extends Event {
     private final Player player;
     private final String message;
 
-    public BadMessageEvent(Player player, String message) {
+    public BadMessageEvent(Player player, String message, boolean isAsync) {
+        super(isAsync);
         this.player = player;
         this.message = message;
     }

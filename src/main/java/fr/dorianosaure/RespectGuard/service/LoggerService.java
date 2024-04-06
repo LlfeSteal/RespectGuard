@@ -1,13 +1,12 @@
 package fr.dorianosaure.RespectGuard.service;
 
-
 import fr.dorianosaure.RespectGuard.service.Interface.ILoggerService;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * @inheritDoc
+ * {@inheritDoc}
  */
 public class LoggerService implements ILoggerService {
 
@@ -22,10 +21,18 @@ public class LoggerService implements ILoggerService {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     @Override
     public void Error(String string, Exception exception) {
         this.logger.log(Level.SEVERE, string, exception);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void Debug(String message) {
+        this.logger.log(Level.CONFIG, message);
     }
 }
