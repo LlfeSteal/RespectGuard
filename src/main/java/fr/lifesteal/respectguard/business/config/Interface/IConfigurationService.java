@@ -6,17 +6,6 @@ import java.util.List;
  * Service de gestion de la configuration.
  */
 public interface IConfigurationService {
-
-    /**
-     * Méthode permettant d'initialiser le fichier de configuration.
-     */
-    void initDefaultConfiguration();
-
-    /**
-     * Méthode permettant de charger la configuration en cache depuis le fichier de configuration.
-     */
-    void loadConfiguration();
-
     /**
      * Méthode permettant de récupérer la clé de l'API ChatGPT.
      * @return Retourne la clé de l'API ChatGPT.
