@@ -1,25 +1,20 @@
 package fr.lifesteal.respectguard;
 
+import fr.lifesteal.respectguard.business.*;
+import fr.lifesteal.respectguard.business.Interface.IChatGuardService;
+import fr.lifesteal.respectguard.business.config.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.business.config.CacheService;
+import fr.lifesteal.respectguard.business.config.ConfigurationService;
+import fr.lifesteal.respectguard.business.wrapper.CommandDispatcherWrapper;
+import fr.lifesteal.respectguard.business.wrapper.EventCallerWrapper;
 import fr.lifesteal.respectguard.listener.ChatListener;
-import fr.lifesteal.respectguard.service.ChatGptService;
-import fr.lifesteal.respectguard.service.CacheService;
-import fr.lifesteal.respectguard.service.ConfigurationService;
-import fr.lifesteal.respectguard.service.Interface.IChatGptService;
-import fr.lifesteal.respectguard.service.Interface.ICacheService;
-import fr.lifesteal.respectguard.service.Interface.ILoggerService;
-import fr.lifesteal.respectguard.service.LoggerService;
-import fr.lifesteal.respectguard.service.Interface.IConfigurationService;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Logger;
-
 public class RespectGuard extends JavaPlugin  {
-
     private IConfigurationService configurationService;
-    private IChatGptService chatGptService;
-    private ILoggerService loggerService;
+    private IChatGuardService chatGuardService;
 
     @Override
     public void onEnable() {
@@ -29,15 +24,21 @@ public class RespectGuard extends JavaPlugin  {
     }
 
     private void initListeners() {
-        this.registerListener(new ChatListener(this, this.chatGptService, this.configurationService));
+        this.registerListener(new ChatListener(this.chatGuardService));
     }
 
     private void initServices() {
-        Logger pluginLogger = PluginLogger.getLogger(RespectGuard.class.toString());
-        this.loggerService = new LoggerService(pluginLogger);
-        ICacheService configurationCacheService = new CacheService();
+        var pluginLogger = PluginLogger.getLogger(RespectGuard.class.toString());
+        var loggerService = new LoggerService(pluginLogger);
+        var configurationCacheService = new CacheService();
         this.configurationService = new ConfigurationService(this, this.getConfig(), configurationCacheService);
-        this.chatGptService = new ChatGptService(this.loggerService, this.configurationService);
+
+        var httpRequestService = new HttpRequestService(loggerService);
+        var chatGptService = new ChatGptService(loggerService, this.configurationService, httpRequestService);
+
+        var commandDispatcher = new CommandDispatcherWrapper(this);
+        var eventCaller = new EventCallerWrapper(this);
+        this.chatGuardService = new ChatGuardService(chatGptService, this.configurationService, eventCaller, commandDispatcher);
     }
 
     private void initConfiguration() {

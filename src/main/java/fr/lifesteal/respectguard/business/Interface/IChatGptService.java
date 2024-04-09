@@ -1,4 +1,4 @@
-package fr.lifesteal.respectguard.service.Interface;
+package fr.lifesteal.respectguard.business.Interface;
 
 /**
  * Service d'intéraction avec l'API ChatGPT.
