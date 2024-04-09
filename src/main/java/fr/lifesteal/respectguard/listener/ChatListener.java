@@ -2,14 +2,11 @@ package fr.lifesteal.respectguard.listener;
 
 import fr.lifesteal.respectguard.business.Interface.IChatGuardService;
 import fr.lifesteal.respectguard.event.BadMessageEvent;
-import fr.lifesteal.respectguard.business.Interface.IChatGptService;
-import fr.lifesteal.respectguard.business.Interface.IConfigurationService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class ChatListener implements Listener {
 
@@ -25,7 +22,8 @@ public class ChatListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        event.setCancelled(this.chatGuardService.analyzePlayerMessage(player, message));
+        boolean hasEventToBeCancelled = this.chatGuardService.analyzePlayerMessage(player, message);
+        event.setCancelled(hasEventToBeCancelled);
     }
 
     @EventHandler
