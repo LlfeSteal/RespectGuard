@@ -49,7 +49,7 @@ public class ChatGptService implements IChatGptService {
 
         this.loggerService.Debug("RequestReponse = %message".replace("%message", response));
 
-        return response.equalsIgnoreCase("Oui.");
+        return extractContentFromResponse(response).equalsIgnoreCase("Oui.");
     }
 
     private Map<String, String> getRequestProperties() {
