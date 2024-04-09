@@ -2,7 +2,9 @@ package fr.lifesteal.respectguard;
 
 import fr.lifesteal.respectguard.business.*;
 import fr.lifesteal.respectguard.business.Interface.IChatGuardService;
-import fr.lifesteal.respectguard.business.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.business.config.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.business.config.CacheService;
+import fr.lifesteal.respectguard.business.config.ConfigurationService;
 import fr.lifesteal.respectguard.business.wrapper.CommandDispatcherWrapper;
 import fr.lifesteal.respectguard.business.wrapper.EventCallerWrapper;
 import fr.lifesteal.respectguard.listener.ChatListener;

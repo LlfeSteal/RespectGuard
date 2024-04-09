@@ -2,7 +2,7 @@ package fr.lifesteal.respectguard.business;
 
 import fr.lifesteal.respectguard.business.Interface.IChatGptService;
 import fr.lifesteal.respectguard.business.Interface.IChatGuardService;
-import fr.lifesteal.respectguard.business.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.business.config.Interface.IConfigurationService;
 import fr.lifesteal.respectguard.business.wrapper.Interface.ICommandDispatcherWrapper;
 import fr.lifesteal.respectguard.business.wrapper.Interface.IEventCallerWrapper;
 import fr.lifesteal.respectguard.event.BadMessageEvent;

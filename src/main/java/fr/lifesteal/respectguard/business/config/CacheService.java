@@ -1,6 +1,6 @@
-package fr.lifesteal.respectguard.business;
+package fr.lifesteal.respectguard.business.config;
 
-import fr.lifesteal.respectguard.business.Interface.ICacheService;
+import fr.lifesteal.respectguard.business.config.Interface.ICacheService;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

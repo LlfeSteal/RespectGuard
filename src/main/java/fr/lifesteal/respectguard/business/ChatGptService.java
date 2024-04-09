@@ -1,16 +1,10 @@
 package fr.lifesteal.respectguard.business;
 
 import fr.lifesteal.respectguard.business.Interface.IChatGptService;
-import fr.lifesteal.respectguard.business.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.business.config.Interface.IConfigurationService;
 import fr.lifesteal.respectguard.business.Interface.IHttpRequestService;
 import fr.lifesteal.respectguard.business.Interface.ILoggerService;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
