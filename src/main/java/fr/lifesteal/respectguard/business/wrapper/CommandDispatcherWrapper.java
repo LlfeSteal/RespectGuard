@@ -14,8 +14,8 @@ public class CommandDispatcherWrapper implements ICommandDispatcherWrapper {
 
     @Override
     public void dispatchConsoleCommand(String command) {
-        Bukkit.getScheduler().runTask(this.plugin, () -> {
-            this.plugin.getServer().dispatchCommand(this.plugin.getServer().getConsoleSender(), command);
-        });
+        Bukkit.getScheduler().runTask(
+                this.plugin,
+                () -> this.plugin.getServer().dispatchCommand(this.plugin.getServer().getConsoleSender(), command));
     }
 }

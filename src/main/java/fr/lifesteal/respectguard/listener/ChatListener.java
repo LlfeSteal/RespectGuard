@@ -1,7 +1,6 @@
 package fr.lifesteal.respectguard.listener;
 
 import fr.lifesteal.respectguard.business.Interface.IChatGuardService;
-import fr.lifesteal.respectguard.event.BadMessageEvent;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,10 +23,5 @@ public class ChatListener implements Listener {
 
         boolean hasEventToBeCancelled = this.chatGuardService.analyzePlayerMessage(player, message);
         event.setCancelled(hasEventToBeCancelled);
-    }
-
-    @EventHandler
-    public void onBadMessage(BadMessageEvent event) {
-        event.getPlayer().sendMessage("BAD MESSAGE : " + event.getMessage());
     }
 }
