@@ -1,6 +1,6 @@
-package fr.lifesteal.respectguard.service;
+package fr.lifesteal.respectguard.business;
 
-import fr.lifesteal.respectguard.service.Interface.ILoggerService;
+import fr.lifesteal.respectguard.business.Interface.ILoggerService;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
