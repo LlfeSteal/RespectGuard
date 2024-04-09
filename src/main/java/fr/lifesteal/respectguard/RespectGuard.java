@@ -1,20 +1,16 @@
 package fr.lifesteal.respectguard;
 
 import fr.lifesteal.respectguard.business.*;
-import fr.lifesteal.respectguard.business.Interface.*;
+import fr.lifesteal.respectguard.business.Interface.IChatGuardService;
+import fr.lifesteal.respectguard.business.Interface.IConfigurationService;
 import fr.lifesteal.respectguard.business.wrapper.CommandDispatcherWrapper;
 import fr.lifesteal.respectguard.business.wrapper.EventCallerWrapper;
-import fr.lifesteal.respectguard.business.wrapper.Interface.ICommandDispatcherWrapper;
-import fr.lifesteal.respectguard.business.wrapper.Interface.IEventCallerWrapper;
 import fr.lifesteal.respectguard.listener.ChatListener;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginLogger;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.logging.Logger;
-
 public class RespectGuard extends JavaPlugin  {
-
     private IConfigurationService configurationService;
     private IChatGuardService chatGuardService;
 
@@ -30,14 +26,16 @@ public class RespectGuard extends JavaPlugin  {
     }
 
     private void initServices() {
-        Logger pluginLogger = PluginLogger.getLogger(RespectGuard.class.toString());
-        ILoggerService loggerService = new LoggerService(pluginLogger);
-        ICacheService configurationCacheService = new CacheService();
+        var pluginLogger = PluginLogger.getLogger(RespectGuard.class.toString());
+        var loggerService = new LoggerService(pluginLogger);
+        var configurationCacheService = new CacheService();
         this.configurationService = new ConfigurationService(this, this.getConfig(), configurationCacheService);
-        IChatGptService chatGptService = new ChatGptService(loggerService, this.configurationService);
 
-        ICommandDispatcherWrapper commandDispatcher = new CommandDispatcherWrapper(this);
-        IEventCallerWrapper eventCaller = new EventCallerWrapper(this);
+        var httpRequestService = new HttpRequestService(loggerService);
+        var chatGptService = new ChatGptService(loggerService, this.configurationService, httpRequestService);
+
+        var commandDispatcher = new CommandDispatcherWrapper(this);
+        var eventCaller = new EventCallerWrapper(this);
         this.chatGuardService = new ChatGuardService(chatGptService, this.configurationService, eventCaller, commandDispatcher);
     }
 

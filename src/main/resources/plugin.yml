@@ -2,3 +2,4 @@ name: 'RespectGuard'
 version: '1.0.0'
 main: fr.LifeSteal.RespectGuard.RespectGuard
 author: LifeSteal
+api-version: 1.20
