@@ -1,8 +1,8 @@
-package fr.lifesteal.respectguard.service;
+package fr.lifesteal.respectguard.business;
 
 import fr.lifesteal.respectguard.constante.ConfigurationConstante;
-import fr.lifesteal.respectguard.service.Interface.ICacheService;
-import fr.lifesteal.respectguard.service.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.business.Interface.ICacheService;
+import fr.lifesteal.respectguard.business.Interface.IConfigurationService;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 

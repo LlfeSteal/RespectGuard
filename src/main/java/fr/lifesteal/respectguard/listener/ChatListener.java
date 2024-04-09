@@ -1,8 +1,9 @@
 package fr.lifesteal.respectguard.listener;
 
+import fr.lifesteal.respectguard.business.Interface.IChatGuardService;
 import fr.lifesteal.respectguard.event.BadMessageEvent;
-import fr.lifesteal.respectguard.service.Interface.IChatGptService;
-import fr.lifesteal.respectguard.service.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.business.Interface.IChatGptService;
+import fr.lifesteal.respectguard.business.Interface.IConfigurationService;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -12,14 +13,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class ChatListener implements Listener {
 
-    private final JavaPlugin plugin;
-    private final IChatGptService chatGptService;
-    private final IConfigurationService configurationService;
+    private final IChatGuardService chatGuardService;
 
-    public ChatListener(JavaPlugin plugin, IChatGptService chatGptService,IConfigurationService configurationService) {
-        this.plugin = plugin;
-        this.chatGptService = chatGptService;
-        this.configurationService = configurationService;
+    public ChatListener(IChatGuardService chatGuardService) {
+        this.chatGuardService = chatGuardService;
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -28,21 +25,7 @@ public class ChatListener implements Listener {
         Player player = event.getPlayer();
         String message = event.getMessage();
 
-        boolean isBadMessage = this.chatGptService.IsBadMessage(message);
-
-        player.sendMessage("Le message contient %message une insulte ? %response"
-                .replace("%message", message)
-                .replace("%response", Boolean.toString(isBadMessage)));
-
-
-        if (isBadMessage) {
-            event.setCancelled(this.configurationService.hasEventToBeCancel());
-            this.plugin.getServer().getPluginManager().callEvent(new BadMessageEvent(player, message, true));
-
-            for (String command : this.configurationService.getCommandsToExecute()) {
-                this.plugin.getServer().dispatchCommand(this.plugin.getServer().getConsoleSender(), command);
-            }
-        }
+        event.setCancelled(this.chatGuardService.analyzePlayerMessage(player, message));
     }
 
     @EventHandler

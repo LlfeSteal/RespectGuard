@@ -1,8 +1,8 @@
-package fr.lifesteal.respectguard.service;
+package fr.lifesteal.respectguard.business;
 
-import fr.lifesteal.respectguard.service.Interface.IChatGptService;
-import fr.lifesteal.respectguard.service.Interface.IConfigurationService;
-import fr.lifesteal.respectguard.service.Interface.ILoggerService;
+import fr.lifesteal.respectguard.business.Interface.IChatGptService;
+import fr.lifesteal.respectguard.business.Interface.IConfigurationService;
+import fr.lifesteal.respectguard.business.Interface.ILoggerService;
 
 import java.io.BufferedReader;
 import java.io.IOException;
