@@ -24,12 +24,6 @@ public interface IConfigurationService {
     String getChatGptApiKey();
 
     /**
-     * Méthode permettant de récupérer le model ChatGPT à utiliser.
-     * @return Retourne le nom du model ChatGPT à utiliser.
-     */
-    String getChatGptModel();
-
-    /**
      * Méthode permettant de récupérer une valeur indiquant si l'event de chat doit être annulé en cas d'insulte dans le message.
      * @return Retourne une valeur indiquant si l'event de chat doit être annulé en cas d'insulte dans le message.
      */
