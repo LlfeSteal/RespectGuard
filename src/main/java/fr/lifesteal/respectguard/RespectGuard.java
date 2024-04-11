@@ -1,7 +1,6 @@
 package fr.lifesteal.respectguard;
 
 import fr.lifesteal.pluginframework.api.config.ConfigService;
-import fr.lifesteal.pluginframework.core.command.PluginCommand;
 import fr.lifesteal.pluginframework.core.plugin.PluginBase;
 import fr.lifesteal.respectguard.business.ChatGptService;
 import fr.lifesteal.respectguard.business.ChatGuardService;
@@ -12,6 +11,7 @@ import fr.lifesteal.respectguard.business.config.ConfigurationService;
 import fr.lifesteal.respectguard.business.wrapper.CommandDispatcherWrapper;
 import fr.lifesteal.respectguard.business.wrapper.EventCallerWrapper;
 import fr.lifesteal.respectguard.listener.ChatListener;
+import org.bukkit.command.Command;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginLogger;
 
@@ -53,7 +53,7 @@ public class RespectGuard extends PluginBase {
     }
 
     @Override
-    protected List<PluginCommand> registerCommands() {
+    protected List<Command> registerCommands() {
         return new ArrayList<>();
     }
 }
