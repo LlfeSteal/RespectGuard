@@ -34,7 +34,6 @@ public class ConfigurationService implements IConfigurationService {
      */
     public void initDefaultConfiguration() {
         this.fileConfiguration.addDefault(ConfigurationConstante.CHATGPT_API_KEY, ConfigurationConstante.CHATGPT_API_KEY_DEFAULT_VALUE);
-        this.fileConfiguration.addDefault(ConfigurationConstante.CHATGPT_MODEL_KEY, ConfigurationConstante.CHATGPT_MODEL_KEY_DEFAULT_VALUE);
         this.fileConfiguration.addDefault(ConfigurationConstante.EVENT_CANCEL_KEY, ConfigurationConstante.EVENT_CANCEL_KEY_DEFAULT_VALUE);
         this.fileConfiguration.addDefault(ConfigurationConstante.EVENT_COMMANDS_KEY, ConfigurationConstante.EVENT_COMMANDS_KEY_DEFAULT_VALUE);
 
@@ -47,7 +46,6 @@ public class ConfigurationService implements IConfigurationService {
      */
     public void loadConfiguration() {
         this.loadStringValue(ConfigurationConstante.CHATGPT_API_KEY);
-        this.loadStringValue(ConfigurationConstante.CHATGPT_MODEL_KEY);
         this.loadBooleanValue(ConfigurationConstante.EVENT_CANCEL_KEY);
         this.loadStringListValue(ConfigurationConstante.EVENT_COMMANDS_KEY);
     }
@@ -58,14 +56,6 @@ public class ConfigurationService implements IConfigurationService {
     @Override
     public String getChatGptApiKey() {
         return (String) this.cacheService.getValue(ConfigurationConstante.CHATGPT_API_KEY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String getChatGptModel() {
-        return (String) this.cacheService.getValue(ConfigurationConstante.CHATGPT_MODEL_KEY);
     }
 
     /**
