@@ -24,11 +24,11 @@ public class ChatGuardService implements IChatGuardService {
 
     @Override
     public boolean analyzePlayerMessage(Player player, String message) {
-        boolean isBadMessage = this.chatGptService.IsBadMessage(message);
+        var analysesResult = this.chatGptService.analyzeMessage(message);
 
-        if (!isBadMessage) return false;
+        if (!analysesResult.isHarmful()) return false;
 
-        this.eventCaller.callEvent(new BadMessageEvent(player, message, true));
+        this.eventCaller.callEvent(new BadMessageEvent(player, message, true, analysesResult.getHarmfulCategories()));
 
         for (String command : this.configurationService.getCommandsToExecute()) {
             this.commandDispatcher.dispatchConsoleCommand(command);
