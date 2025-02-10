@@ -34,7 +34,7 @@ public class RespectGuard extends JavaPlugin  {
         this.configurationService = new ConfigurationService(this, this.getConfig(), configurationCacheService);
 
         var httpRequestService = new HttpRequestService(loggerService);
-        var chatGptService = new ChatGptService(loggerService, this.configurationService, httpRequestService);
+        var chatGptService = new ModerationService(loggerService, this.configurationService, httpRequestService);
 
         var commandDispatcher = new CommandDispatcherWrapper(this);
         var eventCaller = new EventCallerWrapper(this);
