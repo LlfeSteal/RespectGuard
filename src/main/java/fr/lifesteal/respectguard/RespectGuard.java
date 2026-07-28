@@ -7,6 +7,7 @@ import fr.lifesteal.respectguard.business.config.CacheService;
 import fr.lifesteal.respectguard.business.config.ConfigurationService;
 import fr.lifesteal.respectguard.business.wrapper.CommandDispatcherWrapper;
 import fr.lifesteal.respectguard.business.wrapper.EventCallerWrapper;
+import fr.lifesteal.respectguard.listener.BadMessageListener;
 import fr.lifesteal.respectguard.listener.ChatListener;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginLogger;
@@ -25,6 +26,7 @@ public class RespectGuard extends JavaPlugin  {
 
     private void initListeners() {
         this.registerListener(new ChatListener(this.chatGuardService));
+        this.registerListener(new BadMessageListener(this.configurationService, new CommandDispatcherWrapper(this)));
     }
 
     private void initServices() {
@@ -36,9 +38,8 @@ public class RespectGuard extends JavaPlugin  {
         var httpRequestService = new HttpRequestService(loggerService);
         var chatGptService = new ModerationService(loggerService, this.configurationService, httpRequestService);
 
-        var commandDispatcher = new CommandDispatcherWrapper(this);
         var eventCaller = new EventCallerWrapper(this);
-        this.chatGuardService = new ChatGuardService(chatGptService, this.configurationService, eventCaller, commandDispatcher);
+        this.chatGuardService = new ChatGuardService(chatGptService, this.configurationService, eventCaller);
     }
 
     private void initConfiguration() {

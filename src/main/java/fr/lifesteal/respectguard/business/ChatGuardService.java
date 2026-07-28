@@ -13,13 +13,11 @@ public class ChatGuardService implements IChatGuardService {
     private final IChatGptService chatGptService;
     private final IConfigurationService configurationService;
     private final IEventCallerWrapper eventCaller;
-    private final ICommandDispatcherWrapper commandDispatcher;
 
-    public ChatGuardService(IChatGptService chatGptService, IConfigurationService configurationService, IEventCallerWrapper eventCaller, ICommandDispatcherWrapper commandDispatcher) {
+    public ChatGuardService(IChatGptService chatGptService, IConfigurationService configurationService, IEventCallerWrapper eventCaller) {
         this.chatGptService = chatGptService;
         this.configurationService = configurationService;
         this.eventCaller = eventCaller;
-        this.commandDispatcher = commandDispatcher;
     }
 
     @Override
@@ -29,10 +27,6 @@ public class ChatGuardService implements IChatGuardService {
         if (!analysesResult.isHarmful()) return false;
 
         this.eventCaller.callEvent(new BadMessageEvent(player, message, true, analysesResult.getHarmfulCategories()));
-
-        for (String command : this.configurationService.getCommandsToExecute()) {
-            this.commandDispatcher.dispatchConsoleCommand(command);
-        }
 
         return this.configurationService.hasEventToBeCancel();
     }
