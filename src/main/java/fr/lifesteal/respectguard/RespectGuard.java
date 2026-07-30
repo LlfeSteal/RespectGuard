@@ -26,7 +26,7 @@ public class RespectGuard extends JavaPlugin  {
 
     private void initListeners() {
         this.registerListener(new ChatListener(this.chatGuardService));
-        this.registerListener(new BadMessageListener(this.configurationService, new CommandDispatcherWrapper(this)));
+        this.registerListener(new BadMessageListener(this.configurationService, new CommandExecutorService(new CommandDispatcherWrapper(this))));
     }
 
     private void initServices() {
